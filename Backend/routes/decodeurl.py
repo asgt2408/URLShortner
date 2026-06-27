@@ -17,7 +17,7 @@ def get_db():
 @router.get("/decode_url")
 def decode(code : str, db : Session= Depends(get_db)):
 
-    data = db.query(URL).filter(code==URL.code).first()
+    data = db.query(URL).filter(URL.code==code).first()
 
     if not data:
         raise HTTPException(

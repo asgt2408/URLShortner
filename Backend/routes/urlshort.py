@@ -17,10 +17,15 @@ def get_db():
     finally:
         db.close()
 
-@router.post("/url_shorten")
-def urlshorten(url_code : str, db: Session = Depends(get_db)):
+class URLSHORT(BaseModel):
+    url_code : str
 
-    data = db.query(URL).filter(URL.url==url_code).first()
+@router.post("/url_shorten")
+def urlshorten(request: URLSHORT, db: Session = Depends(get_db)):
+
+    url = request.url_code
+
+    data = db.query(URL).filter(URL.url==url).first()
 
     letters = string.ascii_letters + string.digits
     s = ''.join(secrets.choice(letters) for _ in range(8))
@@ -32,13 +37,13 @@ def urlshorten(url_code : str, db: Session = Depends(get_db)):
     
     new_data = URL(
         code = s,
-        url = url_code
+        url = url
     )
 
     db.add(new_data)
     db.commit()
 
     return {
-        "Code":s
+        "code":s
     }
 
