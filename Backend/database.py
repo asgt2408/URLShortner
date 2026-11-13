@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-DATABASE_URL = "mysql+pymysql://root:24082006@127.0.0.1:3306/url"
+DATABASE_URL = "mysql+pymysql://root:24082006@host.docker.internal:3306/url"
 
 engine = create_engine(DATABASE_URL)
 
